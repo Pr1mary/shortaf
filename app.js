@@ -1,30 +1,21 @@
 let express = require("express");
+let cookieparser = require("cookie-parser");
+let bodyparser = require("body-parser");
 let app = express();
-let ejs = require("ejs");
 let port = process.env.PORT || 8000;
+
+let siteController = require("./controller/siteController.js");
 
 app.set("view engine", "ejs");
 
 app.use(express.static("public"));
+app.use(cookieparser());
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended: true}));
 
-app.get("/", (req, res) => {
-    res.render("index", {
-        data: {
-            makanan: "nasi",
-            harga: 10000
-        }
-    });
-});
-
-app.get("/:paramId", (req, res) => {
-    let key;
-    if(req.params.paramId === "help"){
-        key = "Get some help!";
-    }else{
-        key = req.params.paramId + " is the key";
-    }
-    res.send(key);
-});
+app.get("/", siteController.gethome);
+app.post("/", siteController.posthome);
+app.get("/:paramId", siteController.directsite);
 
 app.listen(port, () => {
     console.log("Listening at port "+port);

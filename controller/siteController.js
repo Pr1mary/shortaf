@@ -61,6 +61,7 @@ module.exports.directsite = (req, res) => {
         
     });
 
-    
 }
-    
+
+module.exports.emptylink = (req, res) => res.render("emptylink");
+

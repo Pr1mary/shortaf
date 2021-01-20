@@ -15,11 +15,10 @@ app.use(cookieparser());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
 
-app.get("/", siteController.gethome);
-app.post("/", siteController.posthome);
-app.get("/404", (req, res) => {
-    res.render("emptylink");
-});
+app.route("/")
+.get(siteController.gethome)
+.post(siteController.posthome);
+app.get("/404", siteController.emptylink);
 app.get("/:paramId", siteController.directsite);
 
 app.listen(port, () => {

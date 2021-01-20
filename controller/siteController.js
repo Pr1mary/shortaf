@@ -1,7 +1,11 @@
 let siteMdl = require("../model/siteMdl.js");
 let crypto = require("crypto");
 
-function randStr(size = 9){
+function randLength(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function randStr(size = randLength(7, 9)){
     return crypto
     .randomBytes(size)
     .toString("hex")
@@ -11,10 +15,10 @@ function randStr(size = 9){
 module.exports.gethome = (req, res) => {
     let cookies = req.cookies;
 
-    res.clearCookie("shorthash");
+    res.clearCookie("shortlink");
 
     res.render("index", {
-        shorturl: cookies.shorthash
+        shorturl: cookies.shortlink
     });
 
 }
@@ -32,16 +36,31 @@ module.exports.posthome = (req, res) => {
         console.log(req.body.inoutUrl+" -> link saved at "+shortHash);
     });
 
-    res.clearCookie("shorthash");
-    res.cookie("shorthash", shortHash);
+    res.clearCookie("shortlink");
 
+    if(process.env.PORT == 80)
+        res.cookie("shortlink", process.env.DOMAIN+"/"+shortHash);
+    else
+        res.cookie("shortlink", process.env.DOMAIN+":"+process.env.PORT+"/"+shortHash);
+    
     console.log(shortHash);
 
     res.redirect("/");
 }
 
-module.exports.directsite = (req, res) => siteMdl.findOne(
-    { shortUrl: req.params.paramId }, (err, result) => {
-        res.redirect(result.longUrl);
+module.exports.directsite = (req, res) => {
+
+    let shorturl = req.params.paramId;
+
+    siteMdl.findOne({ shortUrl: shorturl }, (err, result) => {
+        try {
+            res.redirect(result.longUrl);
+        } catch (error) {
+            res.redirect("/404");
+        }
+        
     });
+
+    
+}
     

@@ -1,8 +1,10 @@
+require("dotenv").config();
+
 let express = require("express");
 let cookieparser = require("cookie-parser");
 let bodyparser = require("body-parser");
 let app = express();
-let port = process.env.PORT || 8000;
+let port = process.env.PORT;
 
 let siteController = require("./controller/siteController.js");
 
@@ -15,6 +17,9 @@ app.use(bodyparser.urlencoded({extended: true}));
 
 app.get("/", siteController.gethome);
 app.post("/", siteController.posthome);
+app.get("/404", (req, res) => {
+    res.render("emptylink");
+});
 app.get("/:paramId", siteController.directsite);
 
 app.listen(port, () => {

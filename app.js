@@ -19,6 +19,12 @@ app.route("/")
 .get(siteController.gethome)
 .post(siteController.posthome);
 app.get("/404", siteController.emptylink);
+app.get("/api/hostdetails", (req, res) => {
+    res.send({
+        domain: process.env.DOMAIN,
+        port: process.env.PORT
+    });
+})
 app.get("/:paramId", siteController.directsite);
 
 app.listen(port, () => {

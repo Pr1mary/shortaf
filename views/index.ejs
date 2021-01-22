@@ -1,15 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>shortaf</title>
-    <link rel="icon" type="image/png" href="/img/ball.png"/>
-</head>
-<body>
-    <form action="/" method="POST">
-    <input type="url" id="inoutUrl" name="inoutUrl" value="<%= shorturl %>">
-    </form>
-    
-</body>
-</html>
+<%- include("template/base.ejs"); %>
+
+<div class="header">
+
+</div>
+
+<div class="container homepage">
+
+    <div class="title d-flex justify-content-center">
+        <h1 class="display-3">
+            /shortaf/
+        </h1>
+    </div>
+    <div class="subtitle d-flex justify-content-center">
+        <p>
+            a simple link shortener web app
+        </p>
+    </div>
+
+    <div class="content card bg-light">
+        <div class="card-body">
+
+            <form action="/" method="POST">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <input type="url" class="form-control" id="inoutUrl" name="inoutUrl" value="<%= shorturl %>">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" class="form-control btn btn-primary" id="submitBtn" value="Shorten">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+
+</div>
+
+<script src="/js/clientapp.js"></script>

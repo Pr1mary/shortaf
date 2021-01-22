@@ -1,10 +1,10 @@
 let siteMdl = require("../model/siteMdl.js");
 let crypto = require("crypto");
 
+// randomize string
 function randLength(min, max) {
     return Math.random() * (max - min) + min;
 }
-
 function randStr(size = randLength(7, 9)){
     return crypto
     .randomBytes(size)
@@ -12,10 +12,11 @@ function randStr(size = randLength(7, 9)){
     .slice(0, size);
 }
 
+// get home controller
 module.exports.gethome = (req, res) => {
     let cookies = req.cookies;
 
-    res.clearCookie("shortlink");
+    // res.clearCookie("shortlink");
 
     res.render("index", {
         shorturl: cookies.shortlink
@@ -23,21 +24,28 @@ module.exports.gethome = (req, res) => {
 
 }
 
+// post home controller
 module.exports.posthome = (req, res) => {
 
-    let shortHash = randStr();
+    let cookies = req.cookies;
 
-    let targetSite = new siteMdl({
-        longUrl: req.body.inoutUrl, 
-        shortUrl: shortHash
-    });
+    let shortHash = cookies.shortLink;
 
-    targetSite.save().then(() => {
-        console.log(req.body.inoutUrl+" -> link saved at "+shortHash);
-    });
+    let longurl = req.body.inoutUrl;
 
-    res.clearCookie("shortlink");
+    if(!longurl.includes(process.env.DOMAIN)){
 
+        shortHash = randStr();
+
+        let targetSite = new siteMdl({
+            longUrl: longurl, 
+            shortUrl: shortHash
+        });
+    
+        targetSite.save().then(() => console.log(req.body.inoutUrl+" -> link redirect to "+shortHash));
+    
+    }else console.log("already shortaf link");
+    
     if(process.env.PORT == 80)
         res.cookie("shortlink", process.env.DOMAIN+"/"+shortHash);
     else
@@ -48,6 +56,7 @@ module.exports.posthome = (req, res) => {
     res.redirect("/");
 }
 
+// redirect site controller
 module.exports.directsite = (req, res) => {
 
     let shorturl = req.params.paramId;
@@ -63,5 +72,6 @@ module.exports.directsite = (req, res) => {
 
 }
 
+// empty link 404 controller
 module.exports.emptylink = (req, res) => res.render("emptylink");
 

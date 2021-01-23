@@ -10,3 +10,15 @@
 .content{
     margin-top: 10%;
 }
+
+.cnt404{
+    margin-top: 15%;
+}
+
+.footer{
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    bottom: 0%;
+    text-align: center;
+}

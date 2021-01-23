@@ -15,16 +15,12 @@ app.use(cookieparser());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
 
-app.route("/")
-.get(siteController.gethome)
-.post(siteController.posthome);
+app.route("/").get(siteController.gethome).post(siteController.posthome);
+app.post("api/urlresult", (req, res) => {
+
+});
+app.get("/api/hostdetails", siteController.hostpass);
 app.get("/404", siteController.emptylink);
-app.get("/api/hostdetails", (req, res) => {
-    res.send({
-        domain: process.env.DOMAIN,
-        port: process.env.PORT
-    });
-})
 app.get("/:paramId", siteController.directsite);
 
 app.listen(port, () => {

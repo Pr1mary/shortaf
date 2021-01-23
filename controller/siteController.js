@@ -16,7 +16,7 @@ function randStr(size = randLength(7, 9)){
 module.exports.gethome = (req, res) => {
     let cookies = req.cookies;
 
-    // res.clearCookie("shortlink");
+    res.clearCookie("shortlink");
 
     res.render("index", {
         shorturl: cookies.shortlink
@@ -74,4 +74,12 @@ module.exports.directsite = (req, res) => {
 
 // empty link 404 controller
 module.exports.emptylink = (req, res) => res.render("emptylink");
+
+// host details api
+module.exports.hostpass = (req, res) => {
+    res.send({
+        domain: process.env.DOMAIN,
+        port: process.env.PORT
+    });
+}
 

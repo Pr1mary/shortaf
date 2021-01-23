@@ -1,13 +1,19 @@
-let domain, port, url;
+$(document).ready(() => {
 
-$.get("/api/hostdetails/", (data) => {
-    domain = data.domain;
-    port = data.port;
-});
+    let domain, port, url;
 
-$("#inoutUrl").on("input", () => {
-    url = $(this).val();
+    $.get("/api/hostdetails/", (data) => {
+        domain = data.domain;
+        port = data.port;
+    });
 
-    if(url.includes("benjamin")) alert("say benjamin");
-    // else $("#submitBtn").attr("disabled", false);
+    $("form").submit((e) => {
+        let url = $("#inoutUrl").val();
+    
+        if(url.includes(domain)){
+            alert("This link is already shortaf link");
+            e.preventDefault();
+        }
+    });
+
 });

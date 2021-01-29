@@ -86,7 +86,7 @@ module.exports.directsite = (req, res) => {
 // 
 // empty link 404 controller
 // 
-module.exports.emptylink = (req, res) => res.render("emptylink");
+module.exports.emptylink = (req, res) => res.status(404).render("emptylink");
 
 // 
 // host details api

@@ -1,7 +1,12 @@
+// 
+// initialization
+// 
 let siteMdl = require("../model/siteMdl.js");
 let crypto = require("crypto");
 
+// 
 // randomize string
+// 
 function randLength(min, max) {
     return Math.random() * (max - min) + min;
 }
@@ -12,7 +17,9 @@ function randStr(size = randLength(7, 9)){
     .slice(0, size);
 }
 
+// 
 // get home controller
+// 
 module.exports.gethome = (req, res) => {
     let cookies = req.cookies;
 
@@ -24,7 +31,9 @@ module.exports.gethome = (req, res) => {
 
 }
 
+// 
 // post home controller
+// 
 module.exports.posthome = (req, res) => {
 
     let cookies = req.cookies;
@@ -56,7 +65,9 @@ module.exports.posthome = (req, res) => {
     res.redirect("/");
 }
 
+// 
 // redirect site controller
+// 
 module.exports.directsite = (req, res) => {
 
     let shorturl = req.params.paramId;
@@ -72,10 +83,14 @@ module.exports.directsite = (req, res) => {
 
 }
 
+// 
 // empty link 404 controller
+// 
 module.exports.emptylink = (req, res) => res.render("emptylink");
 
+// 
 // host details api
+// 
 module.exports.hostpass = (req, res) => {
     res.send({
         domain: process.env.DOMAIN,
